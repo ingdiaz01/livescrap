@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Juegos de MLB</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+      color: #f2f2f2;
+      /* background-image:url('mlb.jpg');
+      background-repeat:no-repeat;      
+      background-size:cover; */
+      background-color: #01040B;
+    }
+
+    .progress-container {
+
+      position: relative;
+      height: 200px;
+
+
+      /* display: grid;
+    justify-content: center;
+    align-items: center;
+    place-items: center;
+    margin: auto;
+    position: relative; */
+
+    }
+
+
+    .progress-circle {
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+
+
+    .circular-progress {
+      --size: 250px;
+      --half-size: calc(var(--size) / 2);
+      --stroke-width: 20px;
+      --radius: calc((var(--size) - var(--stroke-width)) / 2);
+      --circumference: calc(var(--radius) * pi * 2);
+      --dash: calc((var(--progress) * var(--circumference)) / 100);
+      animation: progress-animation 5s linear 0s 1 forwards;
+    }
+
+    .circular-progress circle {
+      cx: var(--half-size);
+      cy: var(--half-size);
+      r: var(--radius);
+      stroke-width: var(--stroke-width);
+      fill: none;
+      stroke-linecap: round;
+    }
+
+    .circular-progress circle.bg {
+      stroke: #ddd;
+    }
+
+    .circular-progress circle.fg {
+      transform: rotate(-90deg);
+      transform-origin: var(--half-size) var(--half-size);
+      stroke-dasharray: var(--dash) calc(var(--circumference) - var(--dash));
+      transition: stroke-dasharray 0.3s linear 0s;
+      stroke: #CC4451;
+    }
+
+    @property --progress {
+      syntax: "<number>";
+      inherits: false;
+      initial-value: 0;
+    }
+
+    @keyframes progress-animation {
+      from {
+        --progress: 0;
+      }
+
+      to {
+        --progress: 100;
+      }
+    }
+
+    h1 {
+      text-align: center;
+    }
+
+    table {
+      border-collapse: collapse;
+      width: 100%;
+    }
+
+    th,
+    td {
+      padding: 8px;
+      text-align: left;
+      border-bottom: 1px solid #f1ecec;
+    }
+
+    th {
+      background-color: #0A131A;
+      /* background-color: #f2f2f2; */
+    }
+
+    tr:hover {
+      background-color: #160d35;
+    }
+
+
+    a {
+      display: inline-block;
+      font-weight: 400;
+      text-align: center;
+      white-space: nowrap;
+      vertical-align: middle;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+      border: 1px solid transparent;
+      padding: .375rem .75rem;
+      font-size: 1rem;
+      line-height: 1.5;
+      border-radius: .25rem;
+      transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+    }
+
+    
+    a {
+      color: #fff;
+      background-color: #dc3545;
+      border-color: #dc3545;
+
+    }
+
+    .hidden {
+      display: none;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>Juegos de MLB</h1>
+
+  <div class="progress-container" id="progressContainer">
+    <div class="progress-circle" id="progressCircle">
+      <svg width="250" height="250" viewBox="0 0 250 250" class="circular-progress">
+        <circle class="bg"></circle>
+        <circle class="fg"></circle>
+        <h1 class="circle" id="progressText">
+    </div>
+    </svg>
+  </div>
+  </div>
+
+  <table id="gamesTable" border="1" class="hidden">
+    <thead>
+      <tr>
+        <th>Equipos</th>
+        <th>Inning / Hora</th>
+        <th>Link</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- Aquí se insertarán los datos de la tabla -->
+    </tbody>
+  </table>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const progressContainer = document.getElementById('progressContainer');
+      const gamesTable = document.getElementById('gamesTable');
+      const progressCircle = document.getElementById('progressCircle');
+      const progressText = document.getElementById('progressText');
+
+      // Simular la carga de datos
+      fetch('/games')
+        .then(response => response.json())
+        .then(data => {
+          // Ocultar círculo de progreso y mostrar la tabla
+          progressContainer.classList.add('hidden');
+          gamesTable.classList.remove('hidden');
+
+          data.forEach(game => {
+            const row = document.createElement('tr');
+
+            const teamsCell = document.createElement('td');
+            teamsCell.textContent = game.teams;
+            row.appendChild(teamsCell);
+
+            const inningTimeCell = document.createElement('td');
+            inningTimeCell.textContent = game.inning || game.time;
+            row.appendChild(inningTimeCell);
+
+            const linkCell = document.createElement('td');
+
+            const link = document.createElement('a');
+            link.href = game.link;
+            link.textContent = 'Reproducir';
+
+
+            link.target = '_blank';
+            linkCell.appendChild(link);
+            row.appendChild(linkCell);
+
+            gamesTable.querySelector('tbody').appendChild(row);
+          });
+        })
+        .catch(error => {
+          console.error('Error:', error);
+        });
+
+      // Calcular el progreso
+      let progress = 0;
+      const interval = setInterval(() => {
+        progress++;
+        updateProgress();
+        if (progress >= 100) {
+          clearInterval(interval);
+        }
+      }, 50);
+
+      function updateProgress() {
+        progressText.textContent = `Cargando...${progress}%`;
+        const progressValue = (251.2 * (100 - progress)) / 100;
+        progressCircle.querySelector('circle').style.strokeDashoffset = progressValue;
+
+      }
+    });
+  </script>
+</body>
+
+</html>
