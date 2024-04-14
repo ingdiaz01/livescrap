@@ -4,7 +4,8 @@
   "description": "live scrapin mlb ",
   "main": "app.js",
   "scripts": {    
-
+    "uninstall": "npm uninstall puppeteer",
+    "install": "npm install puppeteer",
     "start": "node app.js"
   },
   "keywords": [],
