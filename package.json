@@ -1,15 +1,16 @@
 {
   "name": "wapi03",
   "version": "1.0.0",
-  "description": "",
+  "description": "live scrapin mlb ",
   "main": "app.js",
-  "scripts": {
-    
+  "scripts": {    
+    "preinstall": "npm uninstall puppeteer",
+    "install": "npm install puppeteer",
     "start": "node app.js"
   },
   "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "author": "josiaz01",
+  "license": "MIT",
   "dependencies": {
     "express": "^4.19.2",
     "npm2": "^2.0.0",
