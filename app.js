@@ -340,6 +340,7 @@ async function getMLB_streame() {
 
 const PORT = process.env.PORT || 3002;
 app.listen(PORT, () => {
-  console.log(`Servidor web escuchando en el puerto http://172.21.0.11:${PORT}`);
-  // console.log(`Servidor web escuchando en el puerto http://qjm-id4.com:${PORT}`);
-});
+   console.log(`Servidor web escuchando en el puerto http://10.0.0.64:${PORT}`);
+  //  console.log(`Servidor web escuchando en el puerto http://qjm-id4.com:${PORT}`);
+  // console.log(`Servidor web escuchando en el puerto http://172.21.0.11:${PORT}`);
+  });
