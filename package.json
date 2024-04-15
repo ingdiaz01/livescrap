@@ -4,6 +4,7 @@
   "description": "live scrapin mlb ",
   "main": "app.js",
   "scripts": {
+    "install": "npx playwright install",
     "start": "node app.js"
   },
   "keywords": [],
