@@ -3,9 +3,7 @@
   "version": "1.0.0",
   "description": "live scrapin mlb ",
   "main": "app.js",
-  "scripts": {    
-    "uninstall": "npm uninstall puppeteer",
-    "install": "npm install puppeteer",
+  "scripts": {
     "start": "node app.js"
   },
   "keywords": [],
@@ -14,6 +12,6 @@
   "dependencies": {
     "express": "^4.19.2",
     "npm2": "^2.0.0",
-    "puppeteer": "^22.6.1"
+    "playwright": "^1.43.1"
   }
 }
